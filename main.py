@@ -30,7 +30,7 @@ TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8729823145:AAFeHtx4eDyC8wcZMy52GQ3DjV6O
 BACKGROUND = (255, 255, 255)
 SEND_AS_DOCUMENT = True  # Documents preserve the collage's original quality.
 LANCZOS = Image.Resampling.LANCZOS
-OUTPUT_SCALE = 4  # 2048px layouts export at 8192px, close to 8K quality.
+OUTPUT_SCALE = 2  # 2048px layouts export at 8192px, close to 8K quality.
 
 
 # Each option is the final canvas size and grid layout.
