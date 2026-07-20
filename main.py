@@ -26,10 +26,11 @@ from telegram.ext import (
 
 
 # Read the token from your computer's environment.  Do not paste a token here.
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8729823145:AAHE18szweDdjoMDZCtm4rKgOW728lx3T6o").strip()
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8729823145:AAFeHtx4eDyC8wcZMy52GQ3DjV6OHnGFRok").strip()
 BACKGROUND = (255, 255, 255)
 SEND_AS_DOCUMENT = True  # Documents preserve the collage's original quality.
 LANCZOS = Image.Resampling.LANCZOS
+OUTPUT_SCALE = 4  # 2048px layouts export at 8192px, close to 8K quality.
 
 
 # Each option is the final canvas size and grid layout.
@@ -119,7 +120,7 @@ def cover_to_cell(image: Image.Image, width: int, height: int) -> Image.Image:
 
 
 def enhance_image(image: Image.Image) -> Image.Image:
-    image = ImageEnhance.Brightness(image).enhance(1.10)
+    image = ImageEnhance.Brightness(image).enhance(1.00)
     image = ImageEnhance.Contrast(image).enhance(1.06)
     image = ImageEnhance.Color(image).enhance(1.03)
     return ImageEnhance.Sharpness(image).enhance(1.08)
@@ -128,8 +129,11 @@ def enhance_image(image: Image.Image) -> Image.Image:
 def create_collage(paths: list[str], output_path: str, photo_count: int) -> None:
     settings = LAYOUT_SETTINGS[photo_count]
     cols, rows = settings["cols"], settings["rows"]
-    width, height = settings["base_w"], settings["base_h"]
-    margin, gap, inset = settings["margin_px"], settings["gap_px"], settings["inset_px"]
+    width = settings["base_w"] * OUTPUT_SCALE
+    height = settings["base_h"] * OUTPUT_SCALE
+    margin = settings["margin_px"] * OUTPUT_SCALE
+    gap = settings["gap_px"] * OUTPUT_SCALE
+    inset = settings["inset_px"] * OUTPUT_SCALE
 
     usable_width = width - (2 * margin) - ((cols - 1) * gap)
     usable_height = height - (2 * margin) - ((rows - 1) * gap)
@@ -145,7 +149,7 @@ def create_collage(paths: list[str], output_path: str, photo_count: int) -> None
             try:
                 with Image.open(paths[image_index]) as source:
                     source = source.convert("RGB")
-                    source.thumbnail((3000, 3000), LANCZOS)
+                    source.thumbnail((8000, 8000), LANCZOS)
                     inner_width = max(1, column_widths[column] - (2 * inset))
                     inner_height = max(1, row_heights[row] - (2 * inset))
                     tile = cover_to_cell(source, inner_width, inner_height)
