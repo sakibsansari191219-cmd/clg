@@ -26,7 +26,7 @@ from telegram.ext import (
 
 
 # Read the token from your computer's environment.  Do not paste a token here.
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8912997548:AAFHvX_fE1849FGn0CkBAGSjY72u18ZmQ_w").strip()
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8729823145:AAHE18szweDdjoMDZCtm4rKgOW728lx3T6o").strip()
 BACKGROUND = (255, 255, 255)
 SEND_AS_DOCUMENT = True  # Documents preserve the collage's original quality.
 LANCZOS = Image.Resampling.LANCZOS
